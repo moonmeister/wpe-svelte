@@ -7,7 +7,8 @@
     "preview": "svelte-kit preview",
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "wpe-build": "npm run build"
+    "wpe-build": "npm run build",
+    "start": "svelte-kit preview --port 8000"
   },
   "devDependencies": {
     "@sveltejs/kit": "^1.0.0-next.114",
@@ -26,5 +27,6 @@
     "@sveltejs/adapter-node": "^1.0.0-next.0",
     "@wpengine/headless-core": "^0.6.5",
     "cookie": "^0.4.1"
-  }
+  },
+  "engines": {"node": "^14.0"}
 }
