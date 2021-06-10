@@ -9,7 +9,7 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
     "wpe-build": "npm run build",
-    "start": "PORT=8000 node build"
+    "start": "PORT=8080 node build"
   },
   "devDependencies": {
     "@sveltejs/kit": "^1.0.0-next.114",
