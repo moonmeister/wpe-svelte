@@ -1,5 +1,6 @@
 {
-  "name": "~TODO~",
+  "name": "wpe-svelte",
+  "description": "Svelte + Atlas + WordPress Example",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
@@ -8,7 +9,7 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
     "wpe-build": "npm run build",
-    "start": "svelte-kit preview --port 8000 --host 0.0.0.0"
+    "start": "PORT=8000 node build"
   },
   "devDependencies": {
     "@sveltejs/kit": "^1.0.0-next.114",
@@ -24,9 +25,11 @@
   "dependencies": {
     "@fontsource/fira-mono": "^4.4.5",
     "@lukeed/uuid": "^2.0.0",
-    "@sveltejs/adapter-node": "^1.0.0-next.0",
+    "@sveltejs/adapter-node": "^1.0.0-next.25",
     "@wpengine/headless-core": "^0.6.5",
     "cookie": "^0.4.1"
   },
-  "engines": {"node": ">14.17.0"}
+  "engines": {
+    "node": ">14.17.0"
+  }
 }
