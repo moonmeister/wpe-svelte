@@ -28,5 +28,5 @@
     "@wpengine/headless-core": "^0.6.5",
     "cookie": "^0.4.1"
   },
-  "engines": {"node": "^14.0"}
+  "engines": {"node": ">14.17.0"}
 }
