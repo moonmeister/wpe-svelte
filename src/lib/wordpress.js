@@ -12,11 +12,18 @@ let fetchConfig = {
 };
 
 const { wpUrl }  = headlessConfig({
-  wpUrl: WP_DOMAIN ?? 'https://atlasfun.wpengine.com',
-  apiClientSecret: WP_SECRET || '167f242f-24da-449d-8694-2f4c96aca1cb'
+  wpUrl: WP_DOMAIN,
+  apiClientSecret: WP_SECRET
 })
 
-const WpPath = new URL('/graphql', wpUrl).toString();
+let WpPath;
+
+try {
+   WpPath = new URL('/graphql', wpUrl).toString();
+
+} catch(e){
+  console.error(`Invalid WP URL: ${wpUrl}`)
+}
 
 export async function posts({fetch}, options = {}){
   const res = await fetch(WpPath, {
