@@ -1,6 +1,35 @@
+<script context='module'>
+	export const hydrate = false;
+</script>
 <script>
 	import { page } from '$app/stores';
 	import logo from './svelte-logo.svg';
+
+	// import { getClient } from "svelte-apollo"
+	// import { gql } from '@apollo/client/core'
+	// const client = getClient()
+
+	// const menuPromise = client.query({
+	// 	query: gql`
+	// 		query MENU_BY_NAME($name: ID!) {
+  //       menu(id: $name, idType: NAME) {
+  //         name
+  //         databaseId
+  //         menuItems {
+  //           nodes {
+  //             label
+  //             path
+  //           }
+  //         }
+  //       }
+  //     }
+	// `,
+	// 	variables: {
+	// 		name: "Main"
+	// 	}
+	// })
+
+	export let menuItems;
 </script>
 
 <header>
@@ -15,9 +44,12 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">Home</a></li>
-			<li class:active={$page.path === '/about'}><a sveltekit:prefetch href="/about">About</a></li>
-			<li class:active={$page.path === '/todos'}><a sveltekit:prefetch href="/todos">Todos</a></li>
+			{#each menuItems as {path, label} }
+			<li class:active={$page.path + '/' === {path}}><a sveltekit:prefetch href={path}>{label}</a></li>
+				
+			{/each}
+			<!-- <li class:active={$page.path === '/about'}><a sveltekit:prefetch href="/about">About</a></li> -->
+			<!-- <li class:active={$page.path === '/todos'}><a sveltekit:prefetch href="/posts">Posts</a></li> -->
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />

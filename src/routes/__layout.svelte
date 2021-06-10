@@ -1,9 +1,39 @@
+<script context="module">
+	import {headlessConfig, getApolloClient} from "@wpengine/headless-core"
+	import { WP_DOMAIN, WP_SECRET} from "$lib/env"
+	headlessConfig(
+		{
+			wpUrl: WP_DOMAIN,
+			apiClientSecret: WP_SECRET
+		}
+	);
+	import { menu } from "$lib/wordpress"
+
+	export async function load(loadApi) {
+		const {page } = loadApi
+		const {data: {menu: {menuItems}}} = await menu(loadApi, 'Main')
+		return {
+			props: {
+				menuItems: menuItems?.nodes
+			},
+			context: {
+				client: getApolloClient(),
+				isPreview: page.query.get('preview') ? true : false
+			}
+		}
+	}
+
+</script>
+
 <script>
 	import Header from '$lib/Header/index.svelte';
+
+	export let menuItems;
+
 	import '../app.css';
 </script>
 
-<Header />
+<Header {menuItems} />
 
 <main>
 	<slot />
