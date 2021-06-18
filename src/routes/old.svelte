@@ -55,4 +55,9 @@ export let data;
   <div>{@html data.content}</div>
   <footer><h2>Page Template</h2></footer>
 </article>
+<section>
+  <pre>
+    {JSON.stringify(data, null, 2)}
+  </pre>
+</section>
 </div>

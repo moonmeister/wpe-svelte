@@ -9,7 +9,7 @@
 
 		// const data = await contentNode({fetch, page})
       const data = await getContentNode(context.client, {variables: {
-        asPreview: page.query.get('preview'),
+        asPreview: false,
         id: page.path,
         idType: 'URI',
       }})
@@ -53,4 +53,9 @@ export let data;
   <footer><h2>Post Template</h2></footer>
 
   </article>
+  <section>
+    <pre>
+      {JSON.stringify(data, null, 2)}
+    </pre>
+  </section>
 </div>

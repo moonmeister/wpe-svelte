@@ -1,23 +1,23 @@
 <script context="module">
-	import {headlessConfig, getApolloClient} from "@wpengine/headless-core"
+	import {headlessConfig, client} from "@wpengine/headless-core"
 	import { WP_DOMAIN, WP_SECRET} from "$lib/env"
 	headlessConfig(
 		{
 			wpUrl: WP_DOMAIN,
-			apiClientSecret: WP_SECRET
+			apiClientSecret: WP_SECRET,
 		}
 	);
 	import { menu } from "$lib/wordpress"
 
 	export async function load(loadApi) {
-		const {page } = loadApi
+		const { page } = loadApi
 		const {data: {menu: {menuItems}}} = await menu(loadApi, 'Main')
 		return {
 			props: {
 				menuItems: menuItems?.nodes
 			},
 			context: {
-				client: getApolloClient(),
+				client: client(),
 				isPreview: page.query.get('preview') ? true : false
 			}
 		}
