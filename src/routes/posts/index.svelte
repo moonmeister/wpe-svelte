@@ -1,5 +1,4 @@
-
-<script context='module'>
+<script context="module">
 	// import { posts } from "$lib/wordpress";
 	// import { getPosts} from "@wpengine/headless-core"
   import { browser, dev } from '$app/env';
@@ -38,57 +37,60 @@
 		// 	return 
 		// }
 
-		const posts = query.posts().nodes;
+		const posts = await resolved(() => {
+			const allPosts = query.posts().nodes
+		
+			return allPosts.map(post => {
+				const result = {
+					id: post.id,
+					excerpt: post.excerpt,
+					title: post.title,
+					uri: post.uri,
+				}
+
+				console.log(result)
+				return result
+			})
+		});
 
 
 
 		return {
 			props: {
-				posts: posts.map(post => {
-
-					const result = {
-						id: post.id,
-						excerpt: post.excerpt,
-						title: post.title,
-						uri: post.uri,
-					}
-					console.log(result)
-					return result
-				})
+				posts: posts
 			},
 			maxage: 5000,
 		}
 	}
 </script>
-<script>
 
+<script>
 	export let posts;
 
-	console.log(posts)
+	console.log(posts);
 
 	// if (!posts) {
 	// 	posts = [];
 	// }
-
 </script>
-	<div>
-		<ul>
-			<!-- {@debug posts} -->
-			{#each posts as post}
-				<li>
-					<a href={post.uri}>
 
-						<article>
-							<h1>{post.title}</h1>
-							<div>
-								{@html post.excerpt}
-							</div>
-						</article>
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
+<div>
+	<ul>
+		<!-- {@debug posts} -->
+		{#each posts as post}
+			<li>
+				<a href={post.uri}>
+					<article>
+						<h1>{post.title}</h1>
+						<div>
+							{@html post.excerpt}
+						</div>
+					</article>
+				</a>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <style>
 	ul {
