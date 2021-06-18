@@ -1,6 +1,5 @@
 <script context="module">
 	import { browser, dev } from '$app/env';
-	import { contentNode} from "$lib/wordpress"
 
 	// we don't need any JS on this page, though we'll load
 	// it in dev so that we get hot module replacement...
@@ -14,17 +13,43 @@
 	// it so that it gets served as a static asset in prod
 	// export const prerender = true;
 
-	export async function load (loadApi) {
+	export async function load(loadApi) {
+		const {
+			page,
+			context: {
+				client: { query, resolved }
+			}
+		} = loadApi;
+		const post = await resolved(() => {
+			const post = query.post({
+				asPreview: false,
+				id: page.path,
+				idType: 'URI'
+			});
 
-		const data = await contentNode(loadApi)
-		return {
-				props: {
-					data,
-				},
-				maxage: 5000,
+			if (!post) {
+				return null;
+			}
+
+			return {
+				title: post.title(),
+				content: post.content()
+			};
+		});
+
+		if (!post) {
+			return null;
 		}
+
+		return {
+			props: {
+				data: post
+			},
+			maxage: 5000
+		};
 	}
 </script>
+
 <script>
 	export let data;
 </script>

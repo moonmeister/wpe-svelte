@@ -1,28 +1,35 @@
 <script context="module">
-  // import {contentNode} from "$lib/wordpress"
-  import {getContentNode} from "@wpengine/headless-core"
   import { browser, dev } from '$app/env';
 
   export const hydrate = dev;
-  export const router = browser;
-
   
-  export async function load({ page, fetch, context}) {
-
-   const data = await getContentNode(context.client, {
-     variables: {
-      asPreview: page.query.get('preview'),
+  export async function load ({ page, fetch, context: {client: {resolved, query}}}) {
+    
+  const wpPage = await resolved(() => {
+    const pageRes = query.page({
+      asPreview: false,
       id: page.path,
       idType: 'URI',
-    }})
+    })
 
-  if (!data) {
+    if (!pageRes) {
+      return null
+    }
+
+    return {
+      title: pageRes.title(),
+      content: pageRes.content(),
+    }
+
+  })
+
+  if (!wpPage ) {
     return null
   }
-  // console.log("page data", data)
-return {
+
+  return {
     props: {
-      data,
+      data: wpPage,
     },
     maxage: 5000,
   }
@@ -32,17 +39,9 @@ return {
 
 export let data;
 
-// console.log(data)
-
 </script>
 <style>
-  ul {
-      list-style: none;
-  }
 
-  li {
-      border: 2px black solid;
-  }
 </style>
 <svelte:head>
 <title>{data.title}</title>
@@ -53,6 +52,12 @@ export let data;
     <h1>{data.title}</h1>
   </header>
   <div>{@html data.content}</div>
-  <footer><h2>Page Template</h2></footer>
+<footer><h2>Post Template</h2></footer>
+
 </article>
+<section>
+  <pre>
+    {JSON.stringify(data, null, 2)}
+  </pre>
+</section>
 </div>

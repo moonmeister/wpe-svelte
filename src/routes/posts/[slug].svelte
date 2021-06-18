@@ -1,25 +1,35 @@
 <script context="module">
-    // import {contentNode} from "$lib/wordpress"
-    import {getContentNode} from "@wpengine/headless-core"
     import { browser, dev } from '$app/env';
 
     export const hydrate = dev;
     
-    export async function load ({ page, fetch, context}) {
-
-		// const data = await contentNode({fetch, page})
-      const data = await getContentNode(context.client, {variables: {
-        asPreview: page.query.get('preview'),
+    export async function load ({ page, context: {client: {resolved, query}}}) {
+      
+		const post = await resolved(() => {
+      const post = query.post({
+        asPreview: false,
         id: page.path,
         idType: 'URI',
-      }})
-      console.log('post', data)
-    if (!data) {
+      })
+
+      if(!post) {
+        return null
+      }
+
+      return {
+        title: post.title(),
+        content: post.content(),
+      }
+
+    })
+
+    if(!post) {
       return null
     }
+
 		return {
 			props: {
-				data,
+				data: post,
 			},
       maxage: 5000,
 		}
@@ -29,17 +39,9 @@
 
 export let data;
 
-// console.log(data)
-
 </script>
 <style>
-    ul {
-        list-style: none;
-    }
-
-    li {
-        border: 2px black solid;
-    }
+ 
 </style>
 <svelte:head>
   <title>{data.title}</title>
@@ -53,4 +55,9 @@ export let data;
   <footer><h2>Post Template</h2></footer>
 
   </article>
+  <section>
+    <pre>
+      {JSON.stringify(data, null, 2)}
+    </pre>
+  </section>
 </div>
