@@ -1,6 +1,7 @@
 <script context="module">
-	import {headlessConfig, client} from "@wpengine/headless-core"
+	import { headlessConfig } from "@faustjs/core"
 	import { WP_DOMAIN, WP_SECRET} from "$lib/env"
+	import { client } from "$lib/client"
 
 	headlessConfig(
 		{
@@ -9,12 +10,10 @@
 		}
 	);
 
-	const coreClient = client();
-
 	export async function load(loadApi) {
 		const { page } = loadApi
 
-		const { query, resolved} = coreClient;
+		const { query, resolved } = client;
 
 		const menuItems = await resolved(() => {
 			const menu = query.menu({id: "Main", idType: "NAME"})
@@ -38,7 +37,7 @@
 				menuItems
 			},
 			context: {
-				client: coreClient,
+				client,
 				isPreview: page.query.get('preview') ? true : false
 			}
 		}

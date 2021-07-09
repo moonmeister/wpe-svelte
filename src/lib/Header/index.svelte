@@ -5,30 +5,6 @@
 	import { page } from '$app/stores';
 	import logo from './svelte-logo.svg';
 
-	// import { getClient } from "svelte-apollo"
-	// import { gql } from '@apollo/client/core'
-	// const client = getClient()
-
-	// const menuPromise = client.query({
-	// 	query: gql`
-	// 		query MENU_BY_NAME($name: ID!) {
-  //       menu(id: $name, idType: NAME) {
-  //         name
-  //         databaseId
-  //         menuItems {
-  //           nodes {
-  //             label
-  //             path
-  //           }
-  //         }
-  //       }
-  //     }
-	// `,
-	// 	variables: {
-	// 		name: "Main"
-	// 	}
-	// })
-
 	export let menuItems;
 </script>
 

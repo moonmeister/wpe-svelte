@@ -1,5 +1,5 @@
 <script context="module">
-	// import { getPosts} from "@wpengine/headless-core"
+	// import { getPosts} from "@faustjs/core"
   import { browser, dev } from '$app/env';
 
 	export const hydrate = false;
