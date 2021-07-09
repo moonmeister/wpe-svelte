@@ -4,5 +4,5 @@ node_modules
 /build
 /functions
 
-.env.*
-~.env.*.sample
+.env*
+!.env.*.sample
